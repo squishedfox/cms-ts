@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { AppRequest } from "./types";
 
 export const servicesMiddleware = (
-  req: AppRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
@@ -10,7 +9,7 @@ export const servicesMiddleware = (
 };
 
 export const errorMiddeleware = (
-  req: AppRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
