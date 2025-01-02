@@ -1,11 +1,4 @@
 import { Router, Response, Request, NextFunction } from "express";
-import { IFormRepository } from "./db";
-
-export interface IAppResponseLocals {
-    services: {
-        formRepository: IFormRepository;
-    };
-}
 
 export const createFormRouter = () => {
     const formRouter = Router();
@@ -14,11 +7,11 @@ export const createFormRouter = () => {
         "/",
         async (
             req: Request,
-            res: Response<any, IAppResponseLocals>,
+            res: Response,
             _: NextFunction,
         ) => {
             const { formId, formName } = req.query;
-            const { services } = res.locals;
+            const { services } = req;
 
             let allForms = services.formRepository.getForms();
             if (formId) {
@@ -35,19 +28,21 @@ export const createFormRouter = () => {
         },
     );
 
-    formRouter.post("/", (req, resp) => {
+    formRouter.post("/", (req: Request, resp: Response) => {
         // TODO: Call mongodb and create forms
         resp.status(201).json({});
     });
 
-    formRouter.put("/{id}", (req, resp) => {
+    formRouter.put("/{id}", (req: Request, res: Response) => {
         // TODO: update forms
-        resp.status(200).json({});
+        res.status(200).json({});
     });
 
-    formRouter.get("/{id}", (req, resp) => {
+    formRouter.get("/{id}", async (req: Request<{id: string}>, res: Response) => {
+        const {id} = req.params;
         // TODO: get form from mongo db based on ID
-        resp.status(200).json({});
+        const form = await req.services.formRepository.getForm(id)
+        res.status(200).json(form);
     });
 
     return formRouter;
