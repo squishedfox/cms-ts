@@ -1,6 +1,8 @@
+import "dotenv/config";
 import express from "express";
 import middlewares from "./middleware";
 import { createFormRouter } from "./router";
+
 
 (function () {
   const app = express();
