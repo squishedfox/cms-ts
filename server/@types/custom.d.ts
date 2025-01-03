@@ -11,4 +11,10 @@ declare global {
             services: IServiceCollection
         }
     }
+
+    namespace NodeJS {
+        interface ProcessEnv extends NodeJS.ProcessEnv {
+            mongodb: string 
+        }
+    }
 }
