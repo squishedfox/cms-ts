@@ -127,5 +127,5 @@ export type Form = {
   updatedOn: Date;
   updatedBy: string;
   createdBy: string;
-  fields: Array<object>;
+  fields: Array<FormField>;
 };

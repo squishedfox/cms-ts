@@ -1,17 +1,22 @@
-import { Request, Response, NextFunction } from "express";
-import { MongoClient } from "mongodb";
+import { Request, Response, NextFunction } from 'express';
+import { MongoClient } from 'mongodb';
+import { FormRepository } from './db';
 
-export const servicesMiddleware = (
+export const servicesMiddleware = async (
   req: Request,
-  res: Response,
+  _: Response,
   next: NextFunction,
 ) => {
-  try {
-    const { dbClient } = req.app.locals as { dbClient: MongoClient };
+  const { dbClient } = req.app.locals as { dbClient: MongoClient };
+  const session = dbClient.startSession();
 
+  try {
+    req.services.formRepository = new FormRepository(session);
     next();
   } catch (err: unknown) {
     next(err);
+  } finally {
+    await session.endSession();
   }
 };
 
