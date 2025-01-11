@@ -42,10 +42,14 @@ export class FormRepository implements IFormRepository {
   async updateForm(form: Form): Promise<void> {
     const session = this.client.startSession();
     try {
+      // copy the form so we can delete the "id" property that should never get inserted into the Database without effecting
+      // the passed in argument
+      const formCopy = JSON.parse(JSON.stringify(form));
+      delete formCopy['id'];
       session.startTransaction();
       await this.collection.findOneAndUpdate(
         { _id: ObjectId.createFromHexString(form.id) },
-        form,
+        formCopy,
         {
           session,
         },
@@ -115,7 +119,7 @@ export class FormRepository implements IFormRepository {
   async getForm(id: string): Promise<Form | null> {
     const session = this.client.startSession();
     try {
-      const form = await this.collection.findOne(
+      const form: Form | null = await this.collection.findOne(
         { _id: ObjectId.createFromHexString(id) },
         {
           projection: {

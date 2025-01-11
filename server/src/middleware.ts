@@ -11,7 +11,7 @@ export const servicesMiddleware = async (
   const session = dbClient.startSession();
 
   try {
-    req.services.formRepository = new FormRepository(session);
+    req.services.formRepository = new FormRepository(dbClient);
     next();
   } catch (err: unknown) {
     next(err);
