@@ -8,13 +8,15 @@
     "skipLibCheck": true,                   // Skip library type checking for faster builds
     "forceConsistentCasingInFileNames": true, // Ensures consistent casing in filenames
     "typeRoots": [
-      "./@types",                          // Add the @types folder to typeRoots
-      "./node_modules/@types"              // Include the default node_modules/@types directory
-    ]
+      "./@types",                        // Add the @types folder to typeRoots
+      "./node_modules/@types",              // Include the default node_modules/@types directory
+			"./custom.d.ts"
+		]
   },
   "include": [
-    "src/**/*.ts"                           // Include all TypeScript files in the src folder
-  ],
+    "src/**/*.ts",                           // Include all TypeScript files in the src folder
+		"./custom.d.ts"
+	],
   "exclude": [
     "node_modules"                         // Exclude node_modules
   ]

@@ -24,7 +24,7 @@ import invariant from 'tiny-invariant';
   }
 
   const app: Application = express();
-  app.mongoClient = dbClient;
+  app.locals.mongoClient = dbClient;
   const formRouter = createFormRouter();
 
   app.use(...middlewares);
@@ -35,7 +35,7 @@ import invariant from 'tiny-invariant';
   });
   server.on('close', () => {
     dbClient.close();
-    delete app.mongoClient;
+    delete app.locals.mongoClient;
   });
 })()
   .then(console.log)
